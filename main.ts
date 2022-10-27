@@ -71,6 +71,10 @@ function isPlayerXWinner (enemyBoats: Sprite[][], hitOrMissPX: Sprite[]) {
             killCount += 1
         }
     }
+    if (killCount == 3) {
+        game.splash(currentPlayer, " Won!")
+        game.over(true, effects.starField)
+    }
     return killCount
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -115,6 +119,18 @@ function switchPlayer () {
         }
         makeBoatInvisible(hitOrMissP2)
         makeBoatVisible(hitOrMissP1)
+    }
+}
+function cpuPlaceBoat0 () {
+    makeBoatVisible(boatSpriteArrayP2[0])
+    if (randint(0, 1) == 0) {
+        grid.place(cursor, tiles.getTileLocation(randint(0, 8), randint(0, 6)))
+        grid.place(boatSpriteArrayP2[0][0], grid.add(grid.getLocation(cursor), 0, 0))
+        grid.place(boatSpriteArrayP2[0][1], grid.add(grid.getLocation(cursor), 1, 0))
+    } else {
+        grid.place(cursor, tiles.getTileLocation(randint(0, 9), randint(0, 5)))
+        grid.place(boatSpriteArrayP2[0][0], grid.add(grid.getLocation(cursor), 0, 0))
+        grid.place(boatSpriteArrayP2[0][1], grid.add(grid.getLocation(cursor), 0, 1))
     }
 }
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -389,6 +405,24 @@ function initP1 () {
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Projectile)]
 }
+function cpuPlaceBoat1 () {
+    makeBoatVisible(boatSpriteArrayP2[1])
+    if (randint(0, 1) == 0) {
+        grid.place(cursor, tiles.getTileLocation(randint(0, 7), randint(0, 6)))
+        grid.place(boatSpriteArrayP2[1][0], grid.add(grid.getLocation(cursor), 0, 0))
+        grid.place(boatSpriteArrayP2[1][1], grid.add(grid.getLocation(cursor), 1, 0))
+        grid.place(boatSpriteArrayP2[1][2], grid.add(grid.getLocation(cursor), 2, 0))
+    } else {
+        grid.place(cursor, tiles.getTileLocation(randint(0, 9), randint(0, 4)))
+        grid.place(boatSpriteArrayP2[1][0], grid.add(grid.getLocation(cursor), 0, 0))
+        grid.place(boatSpriteArrayP2[1][1], grid.add(grid.getLocation(cursor), 0, 1))
+        grid.place(boatSpriteArrayP2[1][2], grid.add(grid.getLocation(cursor), 0, 2))
+    }
+}
+controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
+    cpuPlaceBoat0()
+    cpuPlaceBoat1()
+})
 function initP2 () {
     hitOrMissP2 = [sprites.create(img`
         . . . . . . . . . . . . . . . . 
